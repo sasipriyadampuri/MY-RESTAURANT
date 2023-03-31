@@ -3,46 +3,14 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.buildDynamicImport = buildDynamicImport;
-exports.getDynamicImportSource = getDynamicImportSource;
-var t = require("@babel/types");
-var _template = require("@babel/template");
-function getDynamicImportSource(node) {
-  const [source] = node.arguments;
-  return t.isStringLiteral(source) || t.isTemplateLiteral(source) ? source : _template.default.expression.ast`\`\${${source}}\``;
-}
-function buildDynamicImport(node, deferToThen, wrapWithPromise, builder) {
-  const [specifier] = node.arguments;
-  if (t.isStringLiteral(specifier) || t.isTemplateLiteral(specifier) && specifier.quasis.length === 0) {
-    if (deferToThen) {
-      return _template.default.expression.ast`
-        Promise.resolve().then(() => ${builder(specifier)})
-      `;
-    } else return builder(specifier);
-  }
-  const specifierToString = t.isTemplateLiteral(specifier) ? t.identifier("specifier") : t.templateLiteral([t.templateElement({
-    raw: ""
-  }), t.templateElement({
-    raw: ""
-  })], [t.identifier("specifier")]);
-  if (deferToThen) {
-    return _template.default.expression.ast`
-      (specifier =>
-        new Promise(r => r(${specifierToString}))
-          .then(s => ${builder(t.identifier("s"))})
-      )(${specifier})
-    `;
-  } else if (wrapWithPromise) {
-    return _template.default.expression.ast`
-      (specifier =>
-        new Promise(r => r(${builder(specifierToString)}))
-      )(${specifier})
-    `;
-  } else {
-    return _template.default.expression.ast`
-      (specifier => ${builder(specifierToString)})(${specifier})
-    `;
-  }
+exports.transformDynamicImport = transformDynamicImport;
+var _core = require("@babel/core");
+var _helperModuleTransforms = require("@babel/helper-module-transforms");
+const requireNoInterop = source => _core.template.expression.ast`require(${source})`;
+const requireInterop = (source, file) => _core.types.callExpression(file.addHelper("interopRequireWildcard"), [requireNoInterop(source)]);
+function transformDynamicImport(path, noInterop, file) {
+  const buildRequire = noInterop ? requireNoInterop : requireInterop;
+  path.replaceWith((0, _helperModuleTransforms.buildDynamicImport)(path.node, true, false, specifier => buildRequire(specifier, file)));
 }
 
 //# sourceMappingURL=dynamic-import.js.map

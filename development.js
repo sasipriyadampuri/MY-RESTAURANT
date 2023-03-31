@@ -6,9 +6,9 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _createPlugin = require("./create-plugin");
 var _default = (0, _createPlugin.default)({
-  name: "transform-react-jsx",
-  development: false
+  name: "transform-react-jsx/development",
+  development: true
 });
 exports.default = _default;
 
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=development.js.map
