@@ -1,40 +1,43 @@
 {
-  "name": "@babel/plugin-transform-typescript",
-  "version": "7.21.3",
-  "description": "Transform TypeScript into ES.next",
+  "name": "@babel/regjsgen",
+  "version": "0.8.0",
+  "description": "Generate regular expressions from regjsparser’s AST.",
+  "homepage": "https://github.com/bnjmnt4n/regjsgen",
+  "main": "regjsgen.js",
+  "keywords": [
+    "ast",
+    "generate",
+    "regex",
+    "regexp",
+    "regular expressions"
+  ],
+  "license": "MIT",
+  "author": {
+    "name": "Benjamin Tan",
+    "url": "https://ofcr.se/"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/babel/babel.git",
-    "directory": "packages/babel-plugin-transform-typescript"
+    "url": "https://github.com/bnjmnt4n/regjsgen.git"
   },
-  "license": "MIT",
-  "publishConfig": {
-    "access": "public"
-  },
-  "main": "./lib/index.js",
-  "keywords": [
-    "babel-plugin",
-    "typescript"
+  "bugs": "https://github.com/bnjmnt4n/regjsgen/issues",
+  "files": [
+    "LICENSE-MIT.txt",
+    "regjsgen.js"
   ],
-  "dependencies": {
-    "@babel/helper-annotate-as-pure": "^7.18.6",
-    "@babel/helper-create-class-features-plugin": "^7.21.0",
-    "@babel/helper-plugin-utils": "^7.20.2",
-    "@babel/plugin-syntax-typescript": "^7.20.0"
-  },
-  "peerDependencies": {
-    "@babel/core": "^7.0.0-0"
+  "scripts": {
+    "test": "node tests/tests.js",
+    "coverage": "nyc --reporter=html npm test",
+    "report-coverage": "nyc --reporter=lcov npm test && codecov",
+    "update-fixtures": "node tests/update-fixtures.js"
   },
   "devDependencies": {
-    "@babel/core": "^7.21.3",
-    "@babel/helper-plugin-test-runner": "^7.18.6",
-    "@babel/traverse": "^7.21.3",
-    "@babel/types": "^7.21.3"
+    "codecov": "^3.8.3",
+    "nyc": "^15.1.0",
+    "regjsparser": "^0.9.1",
+    "request": "^2.88.2"
   },
-  "homepage": "https://babel.dev/docs/en/next/babel-plugin-transform-typescript",
-  "engines": {
-    "node": ">=6.9.0"
-  },
-  "author": "The Babel Team (https://babel.dev/team)",
-  "type": "commonjs"
+  "publishConfig": {
+    "access": "public"
+  }
 }

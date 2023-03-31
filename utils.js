@@ -3,56 +3,34 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getHighestUnreleased = getHighestUnreleased;
-exports.getLowestImplementedVersion = getLowestImplementedVersion;
-exports.getLowestUnreleased = getLowestUnreleased;
-exports.isUnreleasedVersion = isUnreleasedVersion;
-exports.semverMin = semverMin;
-exports.semverify = semverify;
-var _semver = require("semver");
-var _helperValidatorOption = require("@babel/helper-validator-option");
-var _targets = require("./targets");
-const versionRegExp = /^(\d+|\d+.\d+)$/;
-const v = new _helperValidatorOption.OptionValidator("@babel/helper-compilation-targets");
-function semverMin(first, second) {
-  return first && _semver.lt(first, second) ? first : second;
+exports.getImportSource = getImportSource;
+exports.getRequireSource = getRequireSource;
+exports.isPolyfillSource = isPolyfillSource;
+var _t = require("@babel/types");
+const {
+  isCallExpression,
+  isExpressionStatement,
+  isIdentifier,
+  isStringLiteral
+} = _t;
+function getImportSource({
+  node
+}) {
+  if (node.specifiers.length === 0) return node.source.value;
 }
-function semverify(version) {
-  if (typeof version === "string" && _semver.valid(version)) {
-    return version;
+function getRequireSource({
+  node
+}) {
+  if (!isExpressionStatement(node)) return;
+  const {
+    expression
+  } = node;
+  if (isCallExpression(expression) && isIdentifier(expression.callee) && expression.callee.name === "require" && expression.arguments.length === 1 && isStringLiteral(expression.arguments[0])) {
+    return expression.arguments[0].value;
   }
-  v.invariant(typeof version === "number" || typeof version === "string" && versionRegExp.test(version), `'${version}' is not a valid version`);
-  version = version.toString();
-  let pos = 0;
-  let num = 0;
-  while ((pos = version.indexOf(".", pos + 1)) > 0) {
-    num++;
-  }
-  return version + ".0".repeat(2 - num);
 }
-function isUnreleasedVersion(version, env) {
-  const unreleasedLabel = _targets.unreleasedLabels[env];
-  return !!unreleasedLabel && unreleasedLabel === version.toString().toLowerCase();
-}
-function getLowestUnreleased(a, b, env) {
-  const unreleasedLabel = _targets.unreleasedLabels[env];
-  if (a === unreleasedLabel) {
-    return b;
-  }
-  if (b === unreleasedLabel) {
-    return a;
-  }
-  return semverMin(a, b);
-}
-function getHighestUnreleased(a, b, env) {
-  return getLowestUnreleased(a, b, env) === a ? b : a;
-}
-function getLowestImplementedVersion(plugin, environment) {
-  const result = plugin[environment];
-  if (!result && environment === "android") {
-    return plugin.chrome;
-  }
-  return result;
+function isPolyfillSource(source) {
+  return source === "@babel/polyfill" || source === "core-js";
 }
 
 //# sourceMappingURL=utils.js.map

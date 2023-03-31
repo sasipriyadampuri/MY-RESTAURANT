@@ -1,19 +1,19 @@
-# @babel/plugin-transform-typescript
+# @babel/preset-typescript
 
-> Transform TypeScript into ES.next
+> Babel preset for TypeScript.
 
-See our website [@babel/plugin-transform-typescript](https://babeljs.io/docs/en/babel-plugin-transform-typescript) for more information.
+See our website [@babel/preset-typescript](https://babeljs.io/docs/en/babel-preset-typescript) for more information or the [issues](https://github.com/babel/babel/issues?utf8=%E2%9C%93&q=is%3Aissue+label%3A%22area%3A%20typescript%22+is%3Aopen) associated with this package.
 
 ## Install
 
 Using npm:
 
 ```sh
-npm install --save-dev @babel/plugin-transform-typescript
+npm install --save-dev @babel/preset-typescript
 ```
 
 or using yarn:
 
 ```sh
-yarn add @babel/plugin-transform-typescript --dev
+yarn add @babel/preset-typescript --dev
 ```
