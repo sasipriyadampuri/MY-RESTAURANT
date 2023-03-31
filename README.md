@@ -1,19 +1,19 @@
-# @babel/plugin-proposal-class-static-block
+# @babel/plugin-syntax-import-assertions
 
-> Allow parsing of class static blocks
+> Allow parsing of the module assertion attributes in the import statement
 
-See our website [@babel/plugin-proposal-class-static-block](https://babeljs.io/docs/en/babel-plugin-proposal-class-static-block) for more information.
+See our website [@babel/plugin-syntax-import-assertions](https://babeljs.io/docs/en/babel-plugin-syntax-import-assertions) for more information.
 
 ## Install
 
 Using npm:
 
 ```sh
-npm install --save-dev @babel/plugin-proposal-class-static-block
+npm install --save-dev @babel/plugin-syntax-import-assertions
 ```
 
 or using yarn:
 
 ```sh
-yarn add @babel/plugin-proposal-class-static-block --dev
+yarn add @babel/plugin-syntax-import-assertions --dev
 ```
