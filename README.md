@@ -1,19 +1,19 @@
-# @babel/helper-wrap-function
+# @babel/parser
 
-> Helper to wrap functions inside a function call.
+> A JavaScript parser
 
-See our website [@babel/helper-wrap-function](https://babeljs.io/docs/en/babel-helper-wrap-function) for more information.
+See our website [@babel/parser](https://babeljs.io/docs/en/babel-parser) for more information or the [issues](https://github.com/babel/babel/issues?utf8=%E2%9C%93&q=is%3Aissue+label%3A%22pkg%3A%20parser%20(babylon)%22+is%3Aopen) associated with this package.
 
 ## Install
 
 Using npm:
 
 ```sh
-npm install --save @babel/helper-wrap-function
+npm install --save-dev @babel/parser
 ```
 
 or using yarn:
 
 ```sh
-yarn add @babel/helper-wrap-function
+yarn add @babel/parser --dev
 ```
