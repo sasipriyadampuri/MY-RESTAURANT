@@ -1,19 +1,19 @@
-# @babel/plugin-transform-react-display-name
+# @babel/plugin-transform-typescript
 
-> Add displayName to React.createClass calls
+> Transform TypeScript into ES.next
 
-See our website [@babel/plugin-transform-react-display-name](https://babeljs.io/docs/en/babel-plugin-transform-react-display-name) for more information.
+See our website [@babel/plugin-transform-typescript](https://babeljs.io/docs/en/babel-plugin-transform-typescript) for more information.
 
 ## Install
 
 Using npm:
 
 ```sh
-npm install --save-dev @babel/plugin-transform-react-display-name
+npm install --save-dev @babel/plugin-transform-typescript
 ```
 
 or using yarn:
 
 ```sh
-yarn add @babel/plugin-transform-react-display-name --dev
+yarn add @babel/plugin-transform-typescript --dev
 ```
