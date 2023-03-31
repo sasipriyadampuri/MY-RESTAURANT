@@ -1,16 +1,7 @@
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = _defineAccessor;
-function _defineAccessor(type, obj, key, fn) {
+export default function _defineAccessor(type, obj, key, fn) {
   var desc = {
-    configurable: true,
-    enumerable: true
+    configurable: !0,
+    enumerable: !0
   };
-  desc[type] = fn;
-  return Object.defineProperty(obj, key, desc);
+  return desc[type] = fn, Object.defineProperty(obj, key, desc);
 }
-
-//# sourceMappingURL=defineAccessor.js.map
