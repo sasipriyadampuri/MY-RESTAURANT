@@ -3,95 +3,62 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = simplifyAccess;
-var _t = require("@babel/types");
-const {
-  LOGICAL_OPERATORS,
-  assignmentExpression,
-  binaryExpression,
-  cloneNode,
-  identifier,
-  logicalExpression,
-  numericLiteral,
-  sequenceExpression,
-  unaryExpression
-} = _t;
-const simpleAssignmentVisitor = {
-  UpdateExpression: {
-    exit(path) {
-      const {
-        scope,
-        bindingNames,
-        includeUpdateExpression
-      } = this;
-      if (!includeUpdateExpression) {
-        return;
-      }
-      const arg = path.get("argument");
-      if (!arg.isIdentifier()) return;
-      const localName = arg.node.name;
-      if (!bindingNames.has(localName)) return;
-
-      if (scope.getBinding(localName) !== path.scope.getBinding(localName)) {
-        return;
-      }
-      if (path.parentPath.isExpressionStatement() && !path.isCompletionRecord()) {
-        const operator = path.node.operator == "++" ? "+=" : "-=";
-        path.replaceWith(assignmentExpression(operator, arg.node, numericLiteral(1)));
-      } else if (path.node.prefix) {
-        path.replaceWith(assignmentExpression("=", identifier(localName), binaryExpression(path.node.operator[0], unaryExpression("+", arg.node), numericLiteral(1))));
-      } else {
-        const old = path.scope.generateUidIdentifierBasedOnNode(arg.node, "old");
-        const varName = old.name;
-        path.scope.push({
-          id: old
-        });
-        const binary = binaryExpression(path.node.operator[0], identifier(varName),
-        numericLiteral(1));
-
-        path.replaceWith(sequenceExpression([assignmentExpression("=", identifier(varName), unaryExpression("+", arg.node)), assignmentExpression("=", cloneNode(arg.node), binary), identifier(varName)]));
-      }
-    }
-  },
-  AssignmentExpression: {
-    exit(path) {
-      const {
-        scope,
-        seen,
-        bindingNames
-      } = this;
-      if (path.node.operator === "=") return;
-      if (seen.has(path.node)) return;
-      seen.add(path.node);
-      const left = path.get("left");
-      if (!left.isIdentifier()) return;
-
-      const localName = left.node.name;
-      if (!bindingNames.has(localName)) return;
-
-      if (scope.getBinding(localName) !== path.scope.getBinding(localName)) {
-        return;
-      }
-      const operator = path.node.operator.slice(0, -1);
-      if (LOGICAL_OPERATORS.includes(operator)) {
-        path.replaceWith(logicalExpression(
-        operator, path.node.left, assignmentExpression("=", cloneNode(path.node.left), path.node.right)));
-      } else {
-        path.node.right = binaryExpression(
-        operator, cloneNode(path.node.left), path.node.right);
-        path.node.operator = "=";
-      }
-    }
-  }
-};
-function simplifyAccess(path, bindingNames,
-includeUpdateExpression = true) {
-  path.traverse(simpleAssignmentVisitor, {
-    scope: path.scope,
-    bindingNames,
-    seen: new WeakSet(),
-    includeUpdateExpression
-  });
+exports.default = void 0;
+var _helperPluginUtils = require("@babel/helper-plugin-utils");
+var _pluginSyntaxClassStaticBlock = require("@babel/plugin-syntax-class-static-block");
+var _helperCreateClassFeaturesPlugin = require("@babel/helper-create-class-features-plugin");
+function generateUid(scope, denyList) {
+  const name = "";
+  let uid;
+  let i = 1;
+  do {
+    uid = scope._generateUid(name, i);
+    i++;
+  } while (denyList.has(uid));
+  return uid;
 }
+var _default = (0, _helperPluginUtils.declare)(({
+  types: t,
+  template,
+  assertVersion
+}) => {
+  assertVersion("^7.12.0");
+  return {
+    name: "proposal-class-static-block",
+    inherits: _pluginSyntaxClassStaticBlock.default,
+    pre() {
+      (0, _helperCreateClassFeaturesPlugin.enableFeature)(this.file, _helperCreateClassFeaturesPlugin.FEATURES.staticBlocks, false);
+    },
+    visitor: {
+      ClassBody(classBody) {
+        const {
+          scope
+        } = classBody;
+        const privateNames = new Set();
+        const body = classBody.get("body");
+        for (const path of body) {
+          if (path.isPrivate()) {
+            privateNames.add(path.get("key.id").node.name);
+          }
+        }
+        for (const path of body) {
+          if (!path.isStaticBlock()) continue;
+          const staticBlockPrivateId = generateUid(scope, privateNames);
+          privateNames.add(staticBlockPrivateId);
+          const staticBlockRef = t.privateName(t.identifier(staticBlockPrivateId));
+          let replacement;
+          const blockBody = path.node.body;
+          if (blockBody.length === 1 && t.isExpressionStatement(blockBody[0])) {
+            replacement = t.inheritsComments(blockBody[0].expression, blockBody[0]);
+          } else {
+            replacement = template.expression.ast`(() => { ${blockBody} })()`;
+          }
+          path.replaceWith(t.classPrivateProperty(staticBlockRef, replacement, [], true));
+        }
+      }
+    }
+  };
+});
+exports.default = _default;
 
 //# sourceMappingURL=index.js.map
