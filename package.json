@@ -1,60 +1,27 @@
 {
-  "name": "@babel/helper-define-polyfill-provider",
-  "version": "0.3.3",
-  "description": "Babel helper to create your own polyfill provider",
+  "name": "@babel/helper-wrap-function",
+  "version": "7.20.5",
+  "description": "Helper to wrap functions inside a function call.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/babel/babel-polyfills.git",
-    "directory": "packages/babel-helper-define-polyfill-provider"
+    "url": "https://github.com/babel/babel.git",
+    "directory": "packages/babel-helper-wrap-function"
   },
-  "keywords": [
-    "babel-plugin"
-  ],
+  "homepage": "https://babel.dev/docs/en/next/babel-helper-wrap-function",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
   },
-  "main": "lib/index.js",
-  "browser": {
-    "./lib/node/dependencies.js": "./lib/browser/dependencies.js",
-    "./src/node/dependencies.js": "./src/browser/dependencies.js"
-  },
-  "exports": {
-    ".": [
-      {
-        "import": {
-          "node": "./esm/index.node.mjs",
-          "browser": "./esm/index.browser.mjs"
-        },
-        "default": "./lib/index.js"
-      },
-      "./lib/index.js"
-    ],
-    "./package.json": "./package.json"
-  },
+  "main": "./lib/index.js",
   "dependencies": {
-    "@babel/helper-compilation-targets": "^7.17.7",
-    "@babel/helper-plugin-utils": "^7.16.7",
-    "debug": "^4.1.1",
-    "lodash.debounce": "^4.0.8",
-    "resolve": "^1.14.2",
-    "semver": "^6.1.2"
+    "@babel/helper-function-name": "^7.19.0",
+    "@babel/template": "^7.18.10",
+    "@babel/traverse": "^7.20.5",
+    "@babel/types": "^7.20.5"
   },
-  "peerDependencies": {
-    "@babel/core": "^7.4.0-0"
+  "engines": {
+    "node": ">=6.9.0"
   },
-  "devDependencies": {
-    "@babel/cli": "^7.17.6",
-    "@babel/core": "^7.17.8",
-    "@babel/generator": "^7.17.7",
-    "@babel/plugin-transform-modules-commonjs": "^7.17.7",
-    "@babel/traverse": "^7.17.3",
-    "babel-loader": "^8.1.0",
-    "rollup": "^2.3.2",
-    "rollup-plugin-babel": "^4.4.0",
-    "strip-ansi": "^6.0.0",
-    "webpack": "^4.42.1",
-    "webpack-cli": "^3.3.11"
-  },
-  "gitHead": "42b9477c199c0c5420b45cfa8c9bb892d94a64af"
+  "author": "The Babel Team (https://babel.dev/team)",
+  "type": "commonjs"
 }
