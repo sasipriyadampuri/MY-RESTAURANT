@@ -1,19 +1,19 @@
-# @babel/plugin-syntax-import-assertions
+# @babel/plugin-transform-exponentiation-operator
 
-> Allow parsing of the module assertion attributes in the import statement
+> Compile exponentiation operator to ES5
 
-See our website [@babel/plugin-syntax-import-assertions](https://babeljs.io/docs/en/babel-plugin-syntax-import-assertions) for more information.
+See our website [@babel/plugin-transform-exponentiation-operator](https://babeljs.io/docs/en/babel-plugin-transform-exponentiation-operator) for more information.
 
 ## Install
 
 Using npm:
 
 ```sh
-npm install --save-dev @babel/plugin-syntax-import-assertions
+npm install --save-dev @babel/plugin-transform-exponentiation-operator
 ```
 
 or using yarn:
 
 ```sh
-yarn add @babel/plugin-syntax-import-assertions --dev
+yarn add @babel/plugin-transform-exponentiation-operator --dev
 ```
