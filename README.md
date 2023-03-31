@@ -1,19 +1,19 @@
-# @babel/compat-data
+# @babel/highlight
 
-> 
+> Syntax highlight JavaScript strings for output in terminals.
 
-See our website [@babel/compat-data](https://babeljs.io/docs/en/babel-compat-data) for more information.
+See our website [@babel/highlight](https://babeljs.io/docs/en/babel-highlight) for more information.
 
 ## Install
 
 Using npm:
 
 ```sh
-npm install --save @babel/compat-data
+npm install --save-dev @babel/highlight
 ```
 
 or using yarn:
 
 ```sh
-yarn add @babel/compat-data
+yarn add @babel/highlight --dev
 ```
